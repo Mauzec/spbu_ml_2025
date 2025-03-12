@@ -2,7 +2,7 @@
 Максимум баллов - 20. 
 Вам даны следующие датасеты:
 1. https://www.kaggle.com/datasets/ahmedmohamed2003/cafe-sales-dirty-data-for-cleaning-training
-3. https://www.kaggle.com/datasets/anikannal/solar-power-generation-data
+3. https://www.k  aggle.com/datasets/anikannal/solar-power-generation-data
 4. https://www.kaggle.com/datasets/abhaysharma38/beer-rating-reviews
 5. https://www.kaggle.com/datasets/sebastianwillmann/beverage-sales/data
 6. https://www.kaggle.com/datasets/shivamb/netflix-shows
