@@ -12,7 +12,6 @@ torchmetrics
 torchvision
 tqdm
 wandb
-
 black
 isort
 mypy
