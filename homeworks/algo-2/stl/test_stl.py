@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
-from statsmodels.tsa.seasonal import STL as STL_ref
+from statsmodels.tsa.seasonal import STL
 from stl import STL as STLMY
+
 
 def test_stl_N_sm():
     np.random.seed(11)
@@ -20,7 +21,7 @@ def test_stl_N_sm():
     
     df_stl = stl.fit_transform(y)
     
-    stl_ref = STL_ref(y, period=12, seasonal=13, trend=13, robust=False)
+    stl_ref = STL(y, period=12, seasonal=13, trend=13, robust=False)
     stl_ref_res = stl_ref.fit()
     df_stl_ref = pd.DataFrame({
         'trend': stl_ref_res.trend,
@@ -41,5 +42,30 @@ def test_stl_N_sm():
         assert mse_residual < 1.0, 'STL and STL_ref are not equal' 
     print('test_stl_N_sm passed')
     
+
+def make_ts():
+    np.random.seed(11)
+    n=120
+    t=np.arange(n)
+    trend=.05 * t
+    seasonal = 2.0 * np.sin(2*np.pi * t / 12)
+    noise = np.random.randn(n) * .3
+    y = trend + seasonal + noise
+    return y,trend, seasonal, noise
+def mse(a, b):
+    return np.mean((a - b)**2)
+
+def test_outlier_in_residual():
+    y, trend, seasonal, noise = make_ts()
+    y2 = y.copy()
+    y2[50] += 10 #outlier
+    stl = STLMY(period=12, seasonal_wdw=13, trend_wdw=25, inner_loops=2)
+    df = stl.fit_transform(y2)
+ 
+    resid = df['residual']
+    assert resid.iloc[50] > 5 * resid.abs().mean()
+
+    
 if __name__ == '__main__':
     test_stl_N_sm()
+    test_outlier_in_residual()
