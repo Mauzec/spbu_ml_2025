@@ -5,3 +5,5 @@
 Makefile
 
 /.vscode
+
+__pycache__
