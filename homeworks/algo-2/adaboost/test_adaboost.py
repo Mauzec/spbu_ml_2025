@@ -37,6 +37,8 @@ def test_adaboost_vs_skl() :
         )
     print('test_adaboost_vs_skl passed')
         
+        
+        
 def test_adaboost_vs_skl_on_df():
     df = pd.read_csv('../../../data/breast-cancer-wisconsin.csv')
     y = df['diagnosis'].map({'M': 1, 'B': 0}).values

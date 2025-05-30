@@ -17,7 +17,7 @@ def test_stl_N_sm():
     
     y = trend_true + seasonal_true + noise
     
-    stl = STLMY(period=12, trend_wdw=13, seasonal_wdw=13, inner_loops=2)
+    stl = STLMY(period=12, trend_wdw=13, seasonal_wdw=13, inner_loops=5, outer_loops=2)
     
     df_stl = stl.fit_transform(y)
     

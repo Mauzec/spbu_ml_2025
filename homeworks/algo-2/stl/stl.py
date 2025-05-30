@@ -6,12 +6,13 @@ class STL(BaseEstimator, TransformerMixin):
     def __init__(
         self,
         period:int, trend_wdw:float=.25, seasonal_wdw:float=.25, 
-        inner_loops:int=2
+        inner_loops:int=2, outer_loops:int=1
     ):
         self.period = int(period)
         self.seasonal_wdw = float(seasonal_wdw)
         self.trend_wdw = float(trend_wdw)
         self.inner_loops = int(inner_loops)
+        self.outer_loops = int(outer_loops)
         
     def fit(self, y, X=None):
         ''' 
@@ -37,22 +38,23 @@ class STL(BaseEstimator, TransformerMixin):
         trend = self._loess(y,t_span)
         
         seasonal = np.zeros(n, float)
-        for _ in range(self.inner_loops):
-            detrended=y-trend
-            season_temp = np.array([
-                detrended[j::p].mean()
-                for j in range(p)
-            ])
-            
-            seasonal = np.zeros(n, float)
-            for j in range(p):
-                seq = detrended[j::p]
-                span_j = min(s_span, seq.size)
-                smooth_j = self._loess(seq, span_j)
-                seasonal[j::p] = smooth_j
-            seasonal -= seasonal.mean()
-            
-            trend = self._loess(y - seasonal, t_span)
+        for _ in range(self.outer_loops):
+            for _ in range(self.inner_loops):
+                detrended=y-trend
+                # season_temp = np.array([
+                #     detrended[j::p].mean()
+                #     for j in range(p)
+                # ])
+                
+                seasonal = np.zeros(n, float)
+                for j in range(p):
+                    seq = detrended[j::p]
+                    span_j = min(s_span, seq.size)
+                    smooth_j = self._loess(seq, span_j)
+                    seasonal[j::p] = smooth_j
+                seasonal -= seasonal.mean()
+                
+                trend = self._loess(y - seasonal, t_span)
         
         trend_lp = self._loess(y-seasonal,t_span)
         

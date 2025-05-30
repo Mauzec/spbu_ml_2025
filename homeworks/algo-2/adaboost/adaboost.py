@@ -65,11 +65,10 @@ class AdaBoost(BaseEstimator, ClassifierMixin):
     '''
     AdaBoost Classifier
     
-    Parameters:
     lr: float, default=1.0
-        Learning rate for the model.
+        learning rate for the model.
     n_estimators: int, default=100
-        Number of estimators (decision stumps) to use in the ensemble.
+        num of estimators
     '''
     
     def __init__(self, lr=1.0, n_estimators=100):

@@ -3,9 +3,6 @@ from sklearn.base import BaseEstimator, RegressorMixin
 
 class DTRegressor(BaseEstimator, RegressorMixin):
     '''
-    CART
-    Decision Tree Regressor.
-    divide the feature by a threshold and return constant in each part
     
     '''
     
