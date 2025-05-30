@@ -49,7 +49,7 @@ def test_rgb_vs_skl_on_df():
     my_pr = my.predict(X_te)
     my_acc = np.mean((my_pr > .5).astype(int) == y_te)
     
-    skl = KernelRidge(kernel='rbf', gamma=.5/(bw**2), alpha=a)
+    skl = KernelRidge(kernel='rbf', gamma=1/(2*bw**2), alpha=a)
     skl.fit(X_tr, y_tr)
     skl_pr = skl.predict(X_te)
     skl_acc = np.mean((skl_pr > .5).astype(int) == y_te)

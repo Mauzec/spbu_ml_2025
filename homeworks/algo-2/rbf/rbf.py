@@ -6,11 +6,15 @@ class RBFRegressor(BaseEstimator, RegressorMixin):
     RBF Kernel Regresor
     '''
     
-    def __init__(self, bandwidth=1.0, a = 1.0):
+    def __init__(self, bandwidth=1.0, a = 1.0, gamma=None):
         self.bandwidth = float(bandwidth)
         self.a = float(a)
+        self.gamma = float(gamma) if gamma is not None else None
     
     def _gauss(self, d):
+        if self.gamma is not None :
+            return np.exp(-self.gamma * d**2)
+        # equal: gamma = 1/(2*bw**2)
         return np.exp(-.5 * (d/self.bandwidth)**2)
     
     def _kernel_matrix(self,x1,x2):
